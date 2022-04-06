@@ -13,14 +13,15 @@ namespace Games
             int[] spellStrikePlaer = { 1, 2, 3, 4, 5 };
             int[] spellStrikeNps = { 1, 2, 3, 4, 5 };
             string[] spellLegend = { "Наносит урон = "+spellStrike[0], "Усиливает удар "+spellName[0]+" на - "+spellStrike[2],
-                                           "Игнорирует урон "+spellName[0]+" и возвращает "+spellStrike[2], "Возвращяет "+spellStrike[3]+" %Hp ", "Супер удар производится после накопления Силы великого Шорца" };
-            int hpPlaerStart = 1000;
-            int hpNpsStart = 5000;
+                                           "Игнорирует урон "+spellName[0]+" и возвращает "+spellStrike[2], "Возвращяет "+spellStrike[3]+" %Hp ", 
+                                        "Супер удар производится после накопления Силы великого Шорца" };
+            int healthPlaerStart = 1000;
+            int healthNpsStart = 5000;
             int powerShorca = 1;
             int powerShorcaMax = 100;
             int powerShorcaIncrement = 10;
             int plaerplaerHpPercent = 100;
-            int NpsHpPercent = 100;
+            int NpsHealthPercent = 100;
             bool plaerStartBool = false;
             int percent100 = 100;
 
@@ -64,8 +65,9 @@ namespace Games
                 #region //Уровень жизни
                 Console.BackgroundColor = ConsoleColor.Red;
                 Console.Write("Уровень вашей жизни = " + plaerplaerHpPercent+"%");
+                int fitUnderWindow=2;
 
-                for(int i=0;i<plaerplaerHpPercent/2;i++)
+                for(int i=0;i<plaerplaerHpPercent / fitUnderWindow; i++)
                 {
                     Console.Write(" ");
                 }
@@ -82,9 +84,9 @@ namespace Games
                 Console.Write("\n");
                 Console.BackgroundColor = ConsoleColor.Red;
                 Console.ForegroundColor = ConsoleColor.White;
-                Console.Write("Уровень жизни босса = " + NpsHpPercent + "%");
+                Console.Write("Уровень жизни босса = " + NpsHealthPercent + "%");
 
-                for(int i = 0; i < NpsHpPercent / 2; i++)
+                for(int i = 0; i < NpsHealthPercent / 2; i++)
                 {
                     Console.Write(" ");
                 }
@@ -107,61 +109,61 @@ namespace Games
                 #endregion
                 #region//запрос ударов
 
-                int[] plaerUdar = { 1, 2, 3 };
-                int[] npsUdar = { 1, 2, 3 };
+                int[] plaerHit = { 1, 2, 3 };
+                int[] npsHit = { 1, 2, 3 };
 
-                for(int i=0; i< plaerUdar.Length;i++)
+                for(int i=0; i< plaerHit.Length;i++)
                 {
                     Console.Write("Выберите действие " + i + " ");
                     string temp= Console.ReadLine();
-                    plaerUdar[i] = Convert.ToInt32(temp);
-                    spellStrikePlaer[i] = spellStrike[plaerUdar[i]];
+                    plaerHit[i] = Convert.ToInt32(temp);
+                    spellStrikePlaer[i] = spellStrike[plaerHit[i]];
 
-                    if (plaerUdar[i] == 5)
+                    if (plaerHit[i] == 5)
                     { 
+
                         if (powerShorca < powerShorcaMax)
                         {
-                            plaerUdar[i] = 1;
+                            plaerHit[i] = 1;
                             Console.Write("Cила Шорца не достаточна для удара, вы нанесли простой удар" + "\n");
                         }
                     }
 
-                    if (plaerUdar[i] == 3)
+                    if (plaerHit[i] == 3)
                     {
                         spellStrikePlaer[i] -= (spellStrike[0] - spellStrike[0]);
                     }
 
-                    if (plaerUdar[i] == 4)
+                    if (plaerHit[i] == 4)
                     {
                         plaerplaerHpPercent += (plaerplaerHpPercent / percent100 * spellStrike[4]);
                     }
-
                 }
                 randomStart = 0;
                 randomStop = 2;
 
-                for(int i=0; i< npsUdar.Length;i++)
+                for(int i=0; i< npsHit.Length;i++)
                 {
-                    npsUdar[i] = randomNps.Next(randomStart, randomStop);
-                    spellStrikeNps[i] = spellStrike[npsUdar[i]];
+                    npsHit[i] = randomNps.Next(randomStart, randomStop);
+                    spellStrikeNps[i] = spellStrike[npsHit[i]];
 
-                    if (npsUdar[i] == 5)
+                    if (npsHit[i] == 5)
                     {
 
                         if (powerShorca < powerShorcaMax)
                         {
-                            plaerUdar[i] = 1;
+                            plaerHit[i] = 1;
                         }
                     }
 
-                    if (npsUdar[i] == 3)
+                    if (npsHit[i] == 3)
                     {
                         spellStrikeNps[i] -= (spellStrike[0] - spellStrike[0]);
                     }
 
-                    if (npsUdar[i] == 4)
+                    if (npsHit[i] == 4)
                     {
-                        NpsHpPercent += (NpsHpPercent / percent100 * spellStrike[4]);
+                        NpsHealthPercent += (NpsHealthPercent / percent100 * spellStrike[4]);
                     }
                 }
 
@@ -169,15 +171,15 @@ namespace Games
                 #endregion
                 #region//бой
                 
-                int npsOnePercent = hpNpsStart / percent100;
-                int plaerOnePercent = hpPlaerStart / percent100;
+                int npsOnePercent = healthNpsStart / percent100;
+                int plaerOnePercent = healthPlaerStart / percent100;
 
                 if(plaerStartBool)
                 {
-                    int tempHpPlaer = hpPlaerStart/percent100*plaerplaerHpPercent;
-                    int tempHpNps = hpNpsStart/percent100*NpsHpPercent;
+                    int tempHpPlaer = healthPlaerStart/percent100*plaerplaerHpPercent;
+                    int tempHpNps = healthNpsStart/percent100*NpsHealthPercent;
 
-                    for(int i=0;i< plaerUdar.Length;i++)
+                    for(int i=0;i< plaerHit.Length;i++)
                     {
 
                         if(powerShorca<powerShorcaMax)
@@ -185,7 +187,7 @@ namespace Games
                             powerShorca += powerShorcaIncrement;
                         }
 
-                        tempHpNps -= spellStrikePlaer[npsUdar[i]];
+                        tempHpNps -= spellStrikePlaer[npsHit[i]];
 
                         if (tempHpNps<=0)
                         {
@@ -194,7 +196,7 @@ namespace Games
                             return;
                         }
 
-                        tempHpPlaer -= spellStrike[plaerUdar[i]];
+                        tempHpPlaer -= spellStrike[plaerHit[i]];
 
                         if (tempHpPlaer <= 0)
                         {
@@ -204,20 +206,19 @@ namespace Games
                         }
 
                         plaerplaerHpPercent = tempHpPlaer / plaerOnePercent;
-                        NpsHpPercent = tempHpNps / npsOnePercent;
+                        NpsHealthPercent = tempHpNps / npsOnePercent;
 
                     }
-
                 }else 
                 {
 
-                    int tempHpPlaer = hpPlaerStart / percent100 * plaerplaerHpPercent;
-                    int tempHpNps = hpNpsStart / percent100 * NpsHpPercent;
+                    int tempHpPlaer = healthPlaerStart / percent100 * plaerplaerHpPercent;
+                    int tempHpNps = healthNpsStart / percent100 * NpsHealthPercent;
 
-                    for (int i=0; i<npsUdar.Length;i++)
+                    for (int i=0; i<npsHit.Length;i++)
                     {
 
-                        tempHpPlaer -= spellStrikeNps[npsUdar[i]];
+                        tempHpPlaer -= spellStrikeNps[npsHit[i]];
 
                         if (tempHpPlaer <= 0)
                         {
@@ -225,7 +226,8 @@ namespace Games
                             Console.WriteLine("Вы умерли, пусть земля вам будет гвозьдями");
                             return;
                         }
-                        tempHpNps -= spellStrikePlaer[npsUdar[i]];
+
+                        tempHpNps -= spellStrikePlaer[npsHit[i]];
 
                         if (tempHpNps <= 0)
                         {
@@ -235,10 +237,8 @@ namespace Games
                         }
 
                         plaerplaerHpPercent = tempHpPlaer / plaerOnePercent;
-                        NpsHpPercent = tempHpNps / npsOnePercent;
-
+                        NpsHealthPercent = tempHpNps / npsOnePercent;
                     }
-
                 }
                 #endregion
             }
